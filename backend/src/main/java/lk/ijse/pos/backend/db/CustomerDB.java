@@ -1,6 +1,9 @@
 package lk.ijse.pos.backend.db;
 
+import lk.ijse.pos.backend.api.Customer;
 import lk.ijse.pos.backend.dto.CustomerDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,6 +18,7 @@ public class CustomerDB {
     final static String getLastCustomerId = "SELECT customerId FROM customer ORDER BY customerId DESC LIMIT 1";
     final static String updateCustomer = "UPDATE customer SET customerName=?, nic=?, contact=? WHERE customerId=?";
     final static String deleteCustomer = "DELETE FROM customer WHERE customerId=?";
+    final static Logger logger = LoggerFactory.getLogger(CustomerDB.class);
 
     public void saveCustomer(CustomerDto customer, Connection connection) throws SQLException {
         this.connection = connection;
@@ -25,9 +29,9 @@ public class CustomerDB {
         ps.setInt(4, customer.getContact());
 
         if (ps.executeUpdate() != 0) {
-            System.out.println("customer saved");
+            logger.info("customer saved");
         } else {
-            System.out.println("customer not saved");
+            logger.info("customer not saved");
         }
     }
 
@@ -70,10 +74,10 @@ public class CustomerDB {
         ps.setString(4, customer.getCustomerId());
 
         if (ps.executeUpdate() != 0) {
-            System.out.println("customer updated");
+            logger.info("customer updated");
             return false;
         } else {
-            System.out.println("customer not updated");
+            logger.info("customer not updated");
             return true;
         }
     }
@@ -83,9 +87,9 @@ public class CustomerDB {
         var ps = connection.prepareStatement(deleteCustomer);
         ps.setString(1, id);
         if (ps.executeUpdate() != 0) {
-            System.out.println("customer deleted");
+            logger.info("customer deleted");
         } else {
-            System.out.println("customer not deleted");
+            logger.info("customer not deleted");
         }
     }
 }

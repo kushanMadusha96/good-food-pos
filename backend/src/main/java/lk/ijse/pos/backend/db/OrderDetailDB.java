@@ -1,6 +1,8 @@
 package lk.ijse.pos.backend.db;
 
 import lk.ijse.pos.backend.dto.OrderDetailDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,6 +19,7 @@ public class OrderDetailDB {
     final static String getAll = "SELECT * FROM orderDetail";
     final static String getLastOrderId = "SELECT orderId FROM orderDetail ORDER BY orderId DESC LIMIT 1";
     final static String deleteOrder = "DELETE FROM orderdetail WHERE orderId=?";
+    final static Logger logger = LoggerFactory.getLogger(OrderDetailDB.class);
 
     public void saveOrder(OrderDetailDto order, Connection connection) throws SQLException {
         this.connection = connection;
@@ -28,9 +31,9 @@ public class OrderDetailDB {
         ps.setDouble(5, order.getTotal());
 
         if (ps.executeUpdate() != 0) {
-            System.out.println("order saved");
+            logger.info("order saved");
         } else {
-            System.out.println("order not saved");
+            logger.info("order not saved");
         }
     }
 
@@ -85,9 +88,9 @@ public class OrderDetailDB {
         var ps = connection.prepareStatement(deleteOrder);
         ps.setString(1, id);
         if (ps.executeUpdate() != 0) {
-            System.out.println("order deleted");
+            logger.info("order deleted");
         } else {
-            System.out.println("order not deleted");
+            logger.info("order not deleted");
         }
     }
 }

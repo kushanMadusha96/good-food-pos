@@ -34,7 +34,7 @@ public class Customer extends HttpServlet {
             InitialContext ctx = new InitialContext();
             DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/pos");
             this.connection = pool.getConnection();
-            logger.info("connection initialized");
+            logger.info("connection initialized for customer");
         } catch (NamingException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -43,6 +43,7 @@ public class Customer extends HttpServlet {
     public boolean checkContentType(HttpServletRequest req, HttpServletResponse resp) {
         if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
             try {
+                logger.info("unsupported media type");
                 resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
             } catch (IOException e) {
                 throw new RuntimeException(e);

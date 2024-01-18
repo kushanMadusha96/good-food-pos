@@ -1,7 +1,10 @@
 package lk.ijse.pos.backend.db;
 
+import lk.ijse.pos.backend.api.Customer;
 import lk.ijse.pos.backend.dto.ItemDto;
 import lk.ijse.pos.backend.dto.ItemQtyDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,6 +22,7 @@ public class ItemDB {
     final static String deleteItem = "DELETE FROM item WHERE itemId=?";
     final static String getQtyById = " SELECT qty FROM item WHERE itemId = ?";
     final static String reduceItemQty = "UPDATE item SET qty = qty - ? WHERE itemId = ?";
+    final static Logger logger = LoggerFactory.getLogger(ItemDB.class);
 
     public void saveItem(ItemDto customer, Connection connection) throws SQLException {
         this.connection = connection;
@@ -29,9 +33,9 @@ public class ItemDB {
         ps.setDouble(4, customer.getQty());
 
         if (ps.executeUpdate() != 0) {
-            System.out.println("item saved");
+            logger.info("item saved");
         } else {
-            System.out.println("item not saved");
+            logger.info("item not saved");
         }
     }
 
@@ -74,10 +78,10 @@ public class ItemDB {
         ps.setString(4, item.getItemId());
 
         if (ps.executeUpdate() != 0) {
-            System.out.println("item updated");
+            logger.info("item updated");
             return false;
         } else {
-            System.out.println("item not updated");
+            logger.info("item not updated");
             return true;
         }
     }
@@ -87,9 +91,9 @@ public class ItemDB {
         var ps = connection.prepareStatement(deleteItem);
         ps.setString(1, id);
         if (ps.executeUpdate() != 0) {
-            System.out.println("item deleted");
+            logger.info("item deleted");
         } else {
-            System.out.println("item not deleted");
+            logger.info("item not deleted");
         }
     }
 
@@ -102,7 +106,7 @@ public class ItemDB {
         while (rs.next()) {
             qty = rs.getString(1);
         }
-        System.out.println(qty);
+        logger.info(qty);
         return qty;
     }
 
@@ -112,12 +116,10 @@ public class ItemDB {
         for (ItemQtyDto itemQty : itemQtyObj) {
             ps.setDouble(1, itemQty.getQty());
             ps.setString(2, itemQty.getItemId());
-            System.out.println(itemQty.getItemId());
-            System.out.println(itemQty.getQty());
             if (ps.executeUpdate() <= 0) {
                 return;
             }
         }
-        System.out.println("qty updated");
+        logger.info("qty updated");
     }
 }

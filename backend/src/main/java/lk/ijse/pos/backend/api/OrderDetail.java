@@ -36,7 +36,7 @@ public class OrderDetail extends HttpServlet {
             InitialContext ctx = new InitialContext();
             DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/pos");
             this.connection = pool.getConnection();
-            logger.info("connection initialized");
+            logger.info("connection initialized for order");
         } catch (NamingException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -45,6 +45,7 @@ public class OrderDetail extends HttpServlet {
     public boolean checkContentType(HttpServletRequest req, HttpServletResponse resp) {
         if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
             try {
+                logger.info("unsupported media type");
                 resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -97,19 +98,4 @@ public class OrderDetail extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
-//    @Override
-//    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        if (checkContentType(req, resp)) {
-//            try {
-//                Jsonb jsonb = JsonbBuilder.create();
-//                CustomerDto customer = jsonb.fromJson(req.getReader(), CustomerDto.class);
-//                if (customerDB.updateCustomer(customer, connection)) {
-//                    resp.setContentType("application/json");
-//                    resp.getWriter().print(jsonb.toJson(customer));
-//                }
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//    }
 }
