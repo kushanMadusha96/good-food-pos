@@ -2,9 +2,9 @@
 // import {order_detail_db} from "../db/order_detail_db.js";
 import {getAllOrders,deleteOrderDetail} from "../api/PlaceOrderApi.js";
 
-$("document").ready(async function () {
-    await loadAll();
-});
+// $("document").ready(async function () {
+//     await loadAll();
+// });
 
 $("#search-input").on("input", async function () {
     $("#od-table-body").empty();
@@ -46,7 +46,7 @@ $("#od-table-body").on('click', ('tr'), function () {
 })
 
 //load all details
-async function loadAll() {
+export async function loadAll() {
     $("#od-table-body").empty();
     const orders = await getAllOrders();
     orders.map((item, index) => {

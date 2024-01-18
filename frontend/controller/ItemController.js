@@ -3,7 +3,7 @@ import {saveItem,deleteItem,nextItemId,updateItem,getAllItem} from "../api/ItemA
 
 //item id make read only
 $(document).ready(async function () {
-    await loadAllItems();
+    // await loadAllItems();
     function itemIdMakeReadonly() {
         $("#item_id").prop("readonly",true);
         $("#item-id-u").prop("readonly",true);

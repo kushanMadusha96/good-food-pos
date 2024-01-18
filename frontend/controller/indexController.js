@@ -1,3 +1,7 @@
+import {loadAllCustomers} from "./CustomerController.js";
+import {loadAllItems} from "./ItemController.js";
+import {loadAll} from "./OrderDetailController.js";
+
 $(document).ready(function () {
     $("#nav-ul").click(function () {
         $('#search-input').val('');
@@ -40,7 +44,8 @@ $("#home-nav").on('click', () => {
     $("#od-nav").css("font-weight", "normal");
 });
 
-$("#customer-nav").on('click', () => {
+$("#customer-nav").on('click', async () => {
+    await loadAllCustomers();
     $("#home").css("display", "none");
     $("#item").css("display", "none");
     $("#od").css("display", "none");
@@ -59,7 +64,8 @@ $("#customer-nav").on('click', () => {
     $("#od-nav").css("font-weight", "normal");
 });
 
-$("#item-nav").on('click', () => {
+$("#item-nav").on('click', async () => {
+    await loadAllItems();
     $("#home").css("display", "none");
     $("#customer").css("display", "none");
     $("#od").css("display", "none");
@@ -78,7 +84,8 @@ $("#item-nav").on('click', () => {
     $("#od-nav").css("font-weight", "normal");
 });
 
-$("#od-nav").on('click', () => {
+$("#od-nav").on('click', async () => {
+    await loadAll();
     $("#home").css("display", "none");
     $("#customer").css("display", "none");
     $("#item").css("display", "none");

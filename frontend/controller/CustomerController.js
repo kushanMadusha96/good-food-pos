@@ -4,7 +4,7 @@ import {saveCustomer, getAllCustomers, nextCustomerId, updateCustomer, deleteCus
 
 //customer id make read only
 $(document).ready(async function () {
-    await loadAllCustomers();
+    // await loadAllCustomers();
     function customerIdMakeReadonly() {
         $("#customer_id").prop("readonly", true);
         $("#customer-id-u").prop("readonly", true);
@@ -93,7 +93,7 @@ $("#c-add_btn").on('click', async () => {
     }
 
     const status = await saveCustomer(new CustomerModel(customerId, customerName, customerNic, contact));
-
+    console.log(status)
     if (status === 200) {
         await Swal.fire({
             position: 'center',
